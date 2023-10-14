@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign up</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e4e4e4;
+            font-family: Georgia, sans-serif;
+        }
+        #container{
+            background-color: #eee;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .fields{
+            font-size: 18px;
+        }
+        .fields, input ,p{
+            display: block;
+            width: 200px;
+            height: 25px;
+            margin: 5px 0px 0px 10px;
+        }
+        p{
+            width: 100%;
+        }
+        .err{
+            font-size: 14px;
+            color: red;
+            margin-left: 10px;
+        }
+        #signupBtn{
+            width: 80px;
+            height: 30px;
+            border: 2px solid #2266e4;
+            color: blue;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bolder;
+            margin: 10px 0px;
+        }
+        .center{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 class="center">Signup</h1>
+        <form id="Signup_form">
+            <label class="fields" for="dis_user">Username to Display</label>
+            <input type="text" id="dis_usr" placeholder="Display username" name="dis_usr" oninput="dis_user()">
+            <label id="usrErr" class="err"></label>
+
+            <label class="fields" for="username">Username</label>
+            <input type="text" id="username" placeholder="Email" name="username" oninput="mail()">
+            <label id="mailErr" class="err"></label>
+
+            <label class="fields" for="password">Password</label>
+            <input type="password" id="password" placeholder="Password" name="password" oninput="pass()">
+            <label id="passErr" class="err"></label>
+
+            <label class="fields" for="Confirmpassword">Confirm Password</label>
+            <input type="password" placeholder="Confirm Password" name="Confirmpassword" id="Confirmpassword" oninput="conpass()">
+            <label id="CpassErr" class="err"></label>
+
+            <div class="center">
+                <button type="submit" id="signupBtn">Sign up</button>
+            </div>
+        </form>
+        <p>Already have account goto <a href="/">Login</a></p>
+    </div>
+    <script>
+        let btn=document.querySelector('#signupBtn')
+        btn.disabled=true;
+        btn.style.cursor="not-allowed"
+        let Eflag=Pflag=CPflag=duFlag=false;
+        function validate(){
+            if(Eflag===true&&Pflag===true&&CPflag===true&&duFlag===true){
+                btn.disabled=false;
+                btn.style.cursor="pointer"
+            }
+            else{
+                btn.disabled=true;
+                btn.style.cursor="not-allowed";
+            }
+        }
+        function dis_user(){
+            let username = document.querySelector('#dis_usr').value;
+            if(username.length<3){
+                document.querySelector('#usrErr').innerHTML='Username must be 3 char long'
+                return;
+            }
+            else
+            document.querySelector('#usrErr').innerHTML=''
+            duFlag=true;
+            validate()
+        }
+        function mail(){
+            let mail = document.querySelector('#username').value;
+            let atposition = mail.indexOf('@');
+            let dotposition = mail.lastIndexOf('.')
+            if(atposition<1||dotposition<atposition+2||dotposition+2>=mail.length){
+                document.querySelector('#mailErr').innerHTML='Enter a valid e-mail address'
+                Eflag=false;
+                return;
+            }
+            else Eflag=true;
+            document.querySelector('#mailErr').innerHTML=''
+            validate();
+        }
+        function pass(){
+            let pass = document.querySelector('#password').value;
+            if(pass.length<6){
+                document.querySelector('#passErr').innerHTML='Password at least 6 charcter long'
+                Pflag=false;
+                return;
+            }
+            else Pflag=true;
+            document.querySelector('#passErr').innerHTML=''
+            validate();
+        }
+        function conpass(){
+            let Cpass=document.querySelector('#Confirmpassword').value;
+            let pass=document.querySelector('#password').value;
+            if(Cpass!==pass){
+                document.querySelector('#CpassErr').innerHTML='Password not matched'
+                CPflag=false;
+                return;
+            }
+            CPflag=true;
+            document.querySelector('#CpassErr').innerHTML=''
+            validate();
+        }
+        document.querySelector('#signupBtn').addEventListener('click',(event)=>{
+            const form_data = new FormData(document.querySelector('#Signup_form'));
+            const formjson={}
+            form_data.forEach((element,key) => {
+                formjson[key]=element
+            });
+            fetch('/newUser',{
+                method: 'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(formjson)
+            }).then((res)=>{
+                if(res.status===200)
+                    return res.json();
+            }).then((res)=>{
+                window.location.href='/'
+            }).catch(err=>{
+                alert(err);
+            })
+        })
+    </script>
+</body>
+</html>

@@ -1,0 +1,20 @@
+[
+  {
+    "userId": "74332870-1fc5-4c84-9eeb-09f4b2a53b72",
+    "disUsername": "user",
+    "username": "test@test.com",
+    "password": "123456"
+  },
+  {
+    "userId": "d59ab630-e3f3-48a8-9798-37228183b983",
+    "disUsername": "abc",
+    "username": "abc@gmail.com",
+    "password": "654321"
+  },
+  {
+    "userId": "d59ab630-e3f3-48a8-9798-37228183b986",
+    "disUsername": "abcd",
+    "username": "abcd@gmail.com",
+    "password": "654321"
+  }
+]

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e4e4e4;
+            font-family: Georgia, sans-serif;
+        }
+        #container{
+            background-color: #eee;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .fields{
+            font-size: 18px;
+        }
+        .fields, input ,p{
+            display: block;
+            width: 200px;
+            height: 25px;
+            margin: 5px 10px 0px 10px;
+        }
+        input{
+            border: 1px solid #6d6d6d;
+            border-radius: 8px;
+            height: 25px;
+            padding: 3px;
+        }
+        .err{
+            font-size: 14px;
+            color: red;
+            margin-left: 10px;
+        }
+        #loginBtn{
+            width: 80px;
+            height: 30px;
+            border: 2px solid #22e422;
+            color: green;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bolder;
+            margin: 10px 0px;
+            border-radius: 10px;
+        }
+        .center{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1 class="center">Login</h1>
+        <form id="login_form">
+            <label class="fields" for="username">Username</label>
+            <input type="text" id="username" name="username" placeholder="Username" oninput="mail()">
+            <label id="mailErr" class="err"></label>
+
+            <label class="fields" for="password">Password</label>
+            <input type="password" id="password" name="password" placeholder="Password" oninput="pass()">
+            <label id="passErr" class="err"></label>
+
+            <div class="center">
+                <button type="submit" id="loginBtn">Login</button>
+            </div>
+        </form>
+        <p>Don't have account <a href="/Signup">Signup?</a></p>
+    </div>
+    <script>
+        let btn=document.querySelector('#loginBtn')
+        btn.disabled=true;
+        btn.style.cursor="not-allowed"
+        Eflag=Pflag=false;
+        function active(){
+            if(Eflag===true && Pflag===true){
+                btn.disabled=false;
+                btn.style.cursor="pointer"
+            }
+            else{
+                btn.disabled=true;
+                btn.style.cursor="not-allowed"
+            }
+        }
+        function mail(){
+            let mail = document.querySelector('#username').value;
+            let atposition = mail.indexOf('@');
+            let dotposition = mail.lastIndexOf('.')
+            if(atposition<1||dotposition<atposition+2||dotposition+2>=mail.length){
+                document.querySelector('#mailErr').innerHTML='Enter a valid e-mail address'
+                Eflag=false;
+                return false;
+            }
+            else Eflag=true;
+            document.querySelector('#mailErr').innerHTML=''
+            active();
+        }
+        function pass(){
+            let pass = document.querySelector('#password').value;
+            if(pass.length<6){
+                document.querySelector('#passErr').innerHTML='Password at least 6 charcter long'
+                Pflag=false;
+                return false;
+            }
+            else Pflag=true;
+            document.querySelector('#passErr').innerHTML=''
+            active();
+        }
+        document.querySelector('#loginBtn').addEventListener('click',(event)=>{
+            const form_data = new FormData(document.querySelector('#login_form'));
+            const formjson={}
+            form_data.forEach((element,key) => {
+                formjson[key]=element
+            });
+            fetch('/login',{
+                method: 'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify(formjson)
+            }).then((res)=>{
+                if(res.status===200)
+                    return res.json();
+            }).then((res)=>{
+                let user = new Object()
+                user.username = res.username;
+                user.userid = res.userid;
+
+                sessionStorage.setItem('user',JSON.stringify(user))
+                window.location.href='/chat'
+            }).catch(err=>{
+                alert(err);
+            })
+        })
+    </script>
+</body>
+</html>
