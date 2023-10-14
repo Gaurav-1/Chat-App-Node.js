@@ -16,6 +16,7 @@
     "uuid": "^9.0.1"
   },
   "dependencies": {
-    "body-parser": "^1.20.2"
+    "body-parser": "^1.20.2",
+    "express-session": "^1.17.3"
   }
 }
