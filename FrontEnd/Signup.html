@@ -155,12 +155,16 @@
                     'Content-Type':'application/json'
                 },
                 body: JSON.stringify(formjson)
-            }).then((res)=>{
-                if(res.status===200)
-                    return res.json();
-            }).then((res)=>{
-                window.location.href='/'
-            }).catch(err=>{
+            })
+            .then((res)=>{    return res.json();  })
+            .then((res)=>{
+                if(res.message){
+                    alert(res.message)
+                    return
+                }
+                window.location.href=res.url
+            })
+            .catch(err=>{
                 alert(err);
             })
         })

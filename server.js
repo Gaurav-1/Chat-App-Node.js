@@ -131,7 +131,7 @@ function user_list(socket){
     return function (msg){
         
         const data=JSON.parse(fs.readFileSync(dbDir+'/users.json','utf-8'))
-        const users = data.filter(map=>map.userId!==msg)
+        const users = data.filter(map=>map.id!==msg)
         io.sockets.in(socket.id).emit('user list reply',users)}
 }
 
@@ -184,17 +184,21 @@ function chk(req,res){
 
     data=data.find(uname=>uname.username===username);
     
-    if(data===undefined) res.status(404).josn({message: "User not exist"})
-
+    if(data===undefined){
+        res.json({message: "User not exist"})
+        return
+    }
+    
     let uname = data.username;
     let psswd = data.password;
+    console.log(uname===username,psswd===password);
     if(username===uname && password===psswd){
         req.session.username=data.disUsername;
         req.session.userid=data.id;
         console.log(req.session);
-        res.status(200).json({user: req.session})
+        res.json({user: req.session})
     }
-    else res.status(301).json({message:'Invalid Username and Password'})
+    else{ console.log('here'); res.json({message:'Invalid Username and Password'})}
     
 }
 
@@ -203,16 +207,16 @@ function sav_user(req,res){
     const data = JSON.parse(fs.readFileSync(dbDir+'/users.json','utf-8'));
     if(data.length>0)
         if(data.find(uname=>uname.username===req.body.username)!==undefined)
-            throw new Error('Username already exist')
+            res.json({message: 'Username already exist'})
         
         newdata={id:`${uuid()}`,disUsername: `${req.body.dis_usr}`,username:`${req.body.username}`,password:`${req.body.password}`}
         data.push(newdata);
         fs.writeFile(dbDir+'/users.json',JSON.stringify(data,null,2),(err)=>{
             if(err){
-                res.josn('Signup error')
+                res.json({message: 'Signup error'})
                 return;
             }
-            res.json('/')
+            res.json({url: '/'})
             return
         })
 }

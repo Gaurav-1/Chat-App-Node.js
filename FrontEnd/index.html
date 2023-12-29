@@ -128,10 +128,9 @@
                     'Content-Type':'application/json'
                 },
                 body: JSON.stringify(formjson)
-            }).then((res)=>{
-                if(res.status===200)
-                    return res.json();
-            }).then((res)=>{
+            }).then((res)=>{ return res.json(); })
+            .then((res)=>{
+                console.log(res);
                 if(res.message){
                     alert(res.message);
                     return
@@ -143,7 +142,8 @@
 
                 sessionStorage.setItem('user',JSON.stringify(user))
                 window.location.href='/chat'
-            }).catch(err=>{
+            })
+            .catch(err=>{
                 alert(err);
             })
         })
