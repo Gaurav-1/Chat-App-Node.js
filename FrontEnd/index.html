@@ -132,9 +132,14 @@
                 if(res.status===200)
                     return res.json();
             }).then((res)=>{
+                if(res.message){
+                    alert(res.message);
+                    return
+                }
+                console.log(res.user);
                 let user = new Object()
-                user.username = res.username;
-                user.userid = res.userid;
+                user.username = res.user.username;
+                user.userid = res.user.userid;
 
                 sessionStorage.setItem('user',JSON.stringify(user))
                 window.location.href='/chat'
