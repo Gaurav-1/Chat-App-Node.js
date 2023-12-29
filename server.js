@@ -176,16 +176,16 @@ function insert_chat(socket){
 }
 
 function chk(req,res){
-    console.log('enter');
+    
     const username = req.body.username.toString().trim();
     const password = req.body.password.toString().trim();
 
     let data=JSON.parse(fs.readFileSync(dbDir+'/users.json','utf-8'))
-console.log('at found');
+
     data=data.find(uname=>uname.username===username);
-    console.log(data);
+    
     if(data===undefined) res.status(404).josn({message: "User not exist"})
-console.log('matching');
+
     let uname = data.username;
     let psswd = data.password;
     if(username===uname && password===psswd){
@@ -195,7 +195,7 @@ console.log('matching');
         res.status(200).json({user: req.session})
     }
     else res.status(301).json({message:'Invalid Username and Password'})
-    console.log('exit');
+    
 }
 
 function sav_user(req,res){
