@@ -96,7 +96,7 @@ io.on('connection',(socket)=>{
     socket.on('chat data',send_chat(socket))
 })
 
-server.listen(3000,(req,res)=>{
+server.listen(5000,(req,res)=>{
     console.log('Hearing port 3000')
 })
 

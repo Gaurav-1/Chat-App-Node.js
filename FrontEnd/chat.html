@@ -1,175 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat-app</title>
-    <style  contenteditable="true">
-      *{
-        padding: 0;
-        margin: 0;
-      }
-      *::-webkit-scrollbar{
-        width: 7px;
-      }
-      *::-webkit-scrollbar-thumb{
-        background-color: darkgrey;
-        outline: 0px solid slategrey;
-        border-radius: 3px;
-      }
-      body{
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        background-color: #6e72fc;
-        background-image: linear-gradient(315deg, #6e72fc 0%, #ad1deb 74%);
-        height: 96.6vh;
-        padding: 10px 10px;
-      }
-      #user-list{
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 5px;
-        font-size: 20px;
-        padding: 5px 10px;
-        height: 98%;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 10px;
-      }
-      .users{
-        cursor: pointer;
-        font-family: sans-serif;
-        border-radius: 10px;
-        max-width: 200px;
-        padding: 8px 10px 8px 10px;
-        background: rgba(187, 187, 187, 0.2);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        overflow-wrap: break-word;
-      }
-      .users:hover{
-        background: rgba(70, 69, 69, 0.2);
-      }
-      .container{
-        flex: 1 60%;
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-        background: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(5px);
-        -webkit-backdrop-filter: blur(5px);
-        border: 1px solid rgba(255, 255, 255, 0.3);
-        border-radius: 10px;
-        height: 87vh;
-        overflow: auto;
-        margin: 0 0 0 20px;
-        padding: 30px;
-      }
-      #chat-box{
-        flex: 1 90%;
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        overflow: auto;
-      }
-      #msg-area{
-        flex: 1;
-        display: flex;
-        gap: 10px;
-      }
-      #chat_msg{
-        flex: 1 80%;
-        border: 1px solid #aaaaaa;
-        font-size: 16px;
-        border-radius: 10px;
-        padding: 10px;
-      }
-      .chatBtn{
-        flex: 1;
-        border: 1px solid #17ff17;
-        background-color: #00ff15;
-        border-radius: 50px;
-        font-size: 16px;
-        text-align: center;
-      }
-      .chatBtn:hover{
-        background-color: #27ff39;
-        font-size: 20px;
-      }
-      .chat-item:has(.user){
-        background-color: rgba(94, 224, 43, 0.8);
-        width: fit-content;
-        max-width: 40%;
-        overflow-wrap: break-word;
-        padding: 10px;
-        align-self: flex-end;
-        border-radius: 10px;
-        font-size: 22px;
-        font-family: sans-serif;
-      }
-      .chat-item:has(.other){
-        background-color: rgba(41, 186, 223, 0.8);
-        width: fit-content;
-        max-width: 40%;
-        overflow-wrap: break-word;
-        height: fit-content;
-        padding: 10px;
-        border-radius: 10px;
-        font-size: 22px;
-        font-family: sans-serif;
-      }
-      #options{
-        display: flex;
-        gap: 10px;
-        align-items: center;
-        justify-items: center;
-      }
-      #current-user{
-        flex: 1 fit-content;
-        color: white;
-        border: 1px solid;
-        border-width: 0px 2px;
-        padding: 3px 5px;
-        max-width: 100px;
-        overflow: hidden;
-      }
-      #logoutBtn{
-        flex: 1;
-        border: 1px solid red;
-        background-color: rgba(255, 255, 255, 0.2);
-        color: red;
-        max-width: 150px;
-        font-size: 20px;
-        padding: 5px;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-      #logoutBtn:hover{
-        background: red;
-        color: #ffffff;
-      }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chat-app</title>
+  <style contenteditable="true">
+    * {
+      padding: 0;
+      margin: 0;
+    }
+
+    *::-webkit-scrollbar {
+      width: 7px;
+    }
+
+    *::-webkit-scrollbar-thumb {
+      background-color: darkgrey;
+      outline: 0px solid slategrey;
+      border-radius: 3px;
+    }
+
+    body {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      background-color: #6e72fc;
+      background-image: linear-gradient(315deg, #6e72fc 0%, #ad1deb 74%);
+      height: 96.5vh;
+      padding: 10px 10px;
+      container-type: inline-size;
+    }
+
+    #user-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 20px;
+      padding: 5px 10px;
+      height: 95.5cqh;
+      max-height: fit-content;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      overflow: auto;
+    }
+
+    .users {
+      cursor: pointer;
+      font-family: sans-serif;
+      border-radius: 10px;
+      max-width: 200px;
+      padding: 8px 10px 8px 10px;
+      background: rgba(187, 187, 187, 0.2);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      overflow-wrap: break-word;
+    }
+
+    .users:hover {
+      background: rgba(70, 69, 69, 0.2);
+    }
+
+    .container {
+      flex: 1 60%;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(5px);
+      -webkit-backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 10px;
+      height: 70ch;
+      overflow: auto;
+      margin: 0 0 0 20px;
+      padding: 30px;
+    }
+
+    .chat-with{
+      position: sticky;
+      top: 0;
+      max-width: 150px;
+    }
+
+    #chat-to:empty{
+      display: none;
+    }
+
+    #chat-to{
+      font-size: 2cqi;
+      color: #fff;
+      border: 1px solid #fff;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 10px;
+    }
+
+    #chat-box {
+      flex: 1 90%;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      overflow: auto;
+    }
+
+    #msg-area {
+      flex: 1;
+      display: flex;
+      gap: 10px;
+    }
+
+    #chat_msg {
+      flex: 1 80%;
+      border: 1px solid #aaaaaa;
+      font-size: 16px;
+      border-radius: 10px;
+      padding: 10px;
+    }
+
+    .chatBtn {
+      flex: 1;
+      border: 1px solid #17ff17;
+      background-color: #00ff15;
+      border-radius: 50px;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .chatBtn:hover {
+      background-color: #27ff39;
+      font-size: 20px;
+    }
+
+    .chat-item:has(.user) {
+      background-color: rgba(94, 224, 43, 0.8);
+      width: fit-content;
+      max-width: 40%;
+      overflow-wrap: break-word;
+      padding: 10px;
+      align-self: flex-end;
+      border-radius: 10px;
+      font-size: 22px;
+      font-family: sans-serif;
+    }
+
+    .chat-item:has(.other) {
+      background-color: rgba(41, 186, 223, 0.8);
+      width: fit-content;
+      max-width: 40%;
+      overflow-wrap: break-word;
+      height: fit-content;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 22px;
+      font-family: sans-serif;
+    }
+
+    #options {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-items: center;
+      position: sticky;
+      top: 0;
+      background: linear-gradient(315deg, #6e72fc 0%, #ad1deb 74%);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      z-index: 999;
+    }
+
+    #current-user {
+      flex: 1 fit-content;
+      color: white;
+      border: 1px solid;
+      border-width: 0px 2px;
+      padding: 3px 5px;
+      max-width: 100px;
+      overflow: hidden;
+    }
+
+    #logoutBtn {
+      flex: 1;
+      border: 1px solid red;
+      background-color: rgba(255, 255, 255, 0.2);
+      color: red;
+      max-width: 150px;
+      font-size: 20px;
+      padding: 5px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    #logoutBtn:hover {
+      background: red;
+      color: #ffffff;
+    }
+  </style>
 </head>
+
 <body>
   <div id="user-list">
-      
+
     <div id="options">
       <p id="current-user"></p>
-        <button id="logoutBtn">Logout</button>
+      <button id="logoutBtn">Logout</button>
     </div>
   </div>
-    
+
   <div class="container">
+    <div class="chat-with">
+      <p id="chat-to"></p>
+    </div>
     <div id="chat-box"></div>
     <div id="msg-area"></div>
   </div>
 
-    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-    <script src="/chat_script.js"></script>
+  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+  <script src="/chat_script.js"></script>
 </body>
+
 </html>

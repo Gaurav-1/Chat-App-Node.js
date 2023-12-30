@@ -9,11 +9,13 @@ socket.on('user list reply',disp_list)
 
 document.querySelector('#current-user').innerHTML=JSON.parse(sessionStorage.getItem('user')).username;
 function disp_list(res){
+    console.log(res);
     const user_list=document.querySelector('#user-list');
     res.forEach(element => {
         const div = document.createElement('div');
         div.setAttribute('class','users')
-        div.setAttribute('id',element.userId)
+        div.setAttribute('id',element.id)
+        div.setAttribute('name',element.disUsername)
         div.innerHTML=`<h3 id='${element.userId}'>${element.username}</h3>`
         user_list.appendChild(div)
     });
@@ -22,6 +24,7 @@ function disp_list(res){
 
 function start_chat(){
     console.log(this);
+    document.querySelector('#chat-to').innerHTML = document.getElementById(this.id).getAttribute('name');
     const sendBy=JSON.parse(sessionStorage.getItem('user')).userid
     const sendTo=this.id
     const chatObj = {
